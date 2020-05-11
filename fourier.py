@@ -87,9 +87,9 @@ def check_input(values):
                 values[i] = values[i].replace(im, '*1j')
 
         # Use regex matching to replace i/j with 1j and prevent from replacing in e.g. sin    
-        pattern = re.compile(r'(?<!s)i(?<!n)')
+        pattern = re.compile(r'(?<![sp])i(?<!n)')
         pattern.sub('1j', values[i])
-        pattern = re.compile(r'(?<!s)j(?<!n)')
+        pattern = re.compile(r'(?<![sp])j(?<!n)')
         pattern.sub('1j', values[i])
 
     # Check mode
@@ -113,8 +113,7 @@ def check_input(values):
                     if key == 'c_n':
                         n = 1 # define n for evaluation
                     ne.evaluate(values[key])
-                except:
-                    print(key)
+                except Exception as e:
                     return None
     return mode
 
