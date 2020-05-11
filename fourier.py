@@ -4,6 +4,7 @@ import numexpr as ne
 import matplotlib.pyplot as plt
 import math, cmath
 import time as tm
+import re
 
 def complex_fourier(c, N, t, T=math.pi*2):
     """Calculates value of f(t) with the help of its complex fourier series approximation.
@@ -84,9 +85,12 @@ def check_input(values):
         for im in ['*i', '*j']:
             if im in values[i]:
                 values[i] = values[i].replace(im, '*1j')
-        for im in ['j', 'i']:
-            if im in values[i]:
-                values[i] = values[i].replace(im, '1j')
+
+        # Use regex matching to replace i/j with 1j and prevent from replacing in e.g. sin    
+        pattern = re.compile(r'(?<!s)i(?<!n)')
+        pattern.sub('1j', values[i])
+        pattern = re.compile(r'(?<!s)j(?<!n)')
+        pattern.sub('1j', values[i])
 
     # Check mode
     mode = values['tab_group']
